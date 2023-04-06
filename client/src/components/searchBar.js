@@ -37,7 +37,7 @@ export default function VehicleSearchBar() {
               <FormControlLabel
                 value="allPrices"
                 onClick={() => {
-                  setPriceHigh(200000000);
+                  setPriceHigh(-1);
                   setPriceLow(0);
                 }}
                 control={<Radio />}
@@ -60,6 +60,15 @@ export default function VehicleSearchBar() {
                 }}
                 control={<Radio />}
                 label="5-10 lakhs"
+              />
+              <FormControlLabel
+                value="above 10 lakhs"
+                onClick={() => {
+                  setPriceHigh(-1);
+                  setPriceLow(1000000);
+                }}
+                control={<Radio />}
+                label="above 10 lakhs"
               />
             </RadioGroup>
           </FormControl>

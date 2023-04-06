@@ -46,7 +46,7 @@ function Vehicle({
             Added: {createdDate}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Price: {price}
+            Price: ₹{price}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Location: {location}

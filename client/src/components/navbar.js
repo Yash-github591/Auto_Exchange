@@ -58,6 +58,12 @@ function Navbar() {
 
   const username = userInfo?.username;
 
+  // The drop-down menu is displayed using the Material-UI Menu and MenuItem components.
+  // When the user clicks on the Button component with the user's username, the
+  // handleClick function is called, which sets the anchorEl state to the current
+  // event target, which is the Button component. This causes the Menu component to
+  // open, as it is set to anchor to the Button component using the anchorEl prop.
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };

@@ -89,6 +89,7 @@ function VehiclePage() {
       <Grid container spacing={4} sx={{ mb: "2rem" }}>
         <Grid item xs={6}>
           <Typography variant="h3">{vehicleData.model}</Typography>
+          <Typography variant="h5">Price: ₹{vehicleData.price}</Typography>
           <Typography variant="body1">Age: {vehicleData.age}</Typography>
           <Typography variant="body1">
             Mileage: {vehicleData.mileage}

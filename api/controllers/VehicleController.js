@@ -57,8 +57,13 @@ VehicleController.get("/vehicles", async (req, res) => {
 
   let query = {
     price: { $gte: priceLow },
-    price: { $lte: priceHigh },
   };
+
+  if (priceHigh != -1) {
+    query = {
+      price: { $gte: priceLow, $lte: priceHigh },
+    };
+  }
 
   if (location !== "") {
     query.location = location;
