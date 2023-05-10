@@ -4,7 +4,7 @@ export const SearchContext = createContext(null);
 
 export function SearchContextProvider({ children }) {
   const [priceLow, setPriceLow] = useState(0);
-  const [priceHigh, setPriceHigh] = useState(200000000);
+  const [priceHigh, setPriceHigh] = useState(-1);
   const [location, setLocation] = useState("");
   const [priceValue, setPriceValue] = useState("allPrices");
   const [locationValue, setLocationValue] = useState("allPlaces");

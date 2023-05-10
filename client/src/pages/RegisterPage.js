@@ -11,7 +11,7 @@ function RegisterPage() {
   const [redirect, setRedirect] = useState(false);
   const { setUserInfo } = useContext(UserContext);
   const navigate = useNavigate();
-  const BASE_URL = process.env.BASE_URL || "http://localhost:4000";
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   async function register(event) {
     event.preventDefault();

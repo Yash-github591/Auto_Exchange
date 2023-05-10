@@ -15,7 +15,7 @@ function Vehicle({
     addSuffix: true,
   });
 
-  const BASE_URL = process.env.BASE_URL || "http://localhost:4000";
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   return (
     <Link to={`/vehicles/${_id}`} style={{ textDecoration: "none" }}>

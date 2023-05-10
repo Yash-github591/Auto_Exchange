@@ -7,7 +7,7 @@ import axios from "axios";
 function MyVehiclesPage() {
   const { userInfo } = useContext(UserContext);
   const [vehicles, setVehicles] = useState([]);
-  const BASE_URL = process.env.BASE_URL || "http://localhost:4000";
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     if (userInfo && userInfo.id) {

@@ -44,7 +44,7 @@ function VehicleForm() {
   const [fuelType, setFuelType] = useState("petrol");
   const [location, setLocation] = useState("Bangalore");
   const [coverImage, setCoverImage] = useState(null);
-  const BASE_URL = process.env.BASE_URL || "http://localhost:4000";
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   const handleSubmit = async (event) => {
     event.preventDefault();

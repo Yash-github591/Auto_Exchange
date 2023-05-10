@@ -11,7 +11,7 @@ function VehiclePage() {
   const { userInfo } = useContext(UserContext);
   const [redirect, setRedirect] = useState(false);
   const { id } = useParams();
-  const BASE_URL = process.env.BASE_URL || "http://localhost:4000";
+  const BASE_URL = process.env.REACT_APP_BASE_URL;
 
   useEffect(() => {
     axios

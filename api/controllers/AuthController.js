@@ -29,7 +29,12 @@ authController.post("/register", async (req, res) => {
         if (err) {
           res.status(400).json(err);
         } else {
-          res.cookie("token", token).json({ username, email, id: userDoc._id });
+          res
+            .cookie("token", token, {
+              sameSite: "none",
+              secure: true, // The "secure" attribute is also required for cookies with SameSite="None"
+            })
+            .json({ username, email, id: userDoc._id });
         }
       }
     );
@@ -54,11 +59,16 @@ authController.post("/login", async (req, res) => {
           if (err) {
             res.status(400).json(err);
           } else {
-            res.cookie("token", token).json({
-              username,
-              email: userDoc.email,
-              id: userDoc._id,
-            });
+            res
+              .cookie("token", token, {
+                sameSite: "none",
+                secure: true, // The "secure" attribute is also required for cookies with SameSite="None"
+              })
+              .json({
+                username,
+                email: userDoc.email,
+                id: userDoc._id,
+              });
           }
         }
       );
@@ -72,7 +82,12 @@ authController.post("/login", async (req, res) => {
 
 // Logout a user
 authController.post("/logout", (req, res) => {
-  res.cookie("token", "").json("ok");
+  res
+    .cookie("token", "", {
+      sameSite: "none",
+      secure: true, // The "secure" attribute is also required for cookies with SameSite="None"
+    })
+    .json("ok");
 });
 
 // get user profile from cookies

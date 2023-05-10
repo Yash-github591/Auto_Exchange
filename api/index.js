@@ -12,6 +12,8 @@ const EmailController = require("./controllers/EmailController");
 
 const port = process.env.PORT || 4000;
 
+client_url = process.env.CLIENT_URL;
+
 // connect mongoose to mongodb
 mongoose
   .connect(process.env.MONGO_URL, {
@@ -25,7 +27,7 @@ mongoose
     console.log("Error connecting to MongoDB", err);
   });
 
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: client_url }));
 
 app.use(express.json());
 app.use(cookieParser());
