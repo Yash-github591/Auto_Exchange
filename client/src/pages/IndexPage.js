@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import Vehicle from "../components/vehicle";
-import { Grid } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 import axios from "axios";
 import VehicleSearchBar from "../components/searchBar";
 import { SearchContext } from "../context/SearchContext";
@@ -28,14 +28,17 @@ function IndexPage() {
     <>
       <VehicleSearchBar />
       <Grid container spacing={2} style={{ margin: "auto" }}>
-        {vehicles.length > 0 &&
-          vehicles.map((vehicle) => {
-            return (
-              <Grid key={vehicle.id} item xs={12} sm={6} md={4} lg={4}>
-                <Vehicle {...vehicle} />
-              </Grid>
-            );
-          })}
+        {(vehicles.length == 0 && (
+          <CircularProgress style={{ marginTop: "10%", marginLeft: "42%" }} />
+        )) ||
+          (vehicles.length > 0 &&
+            vehicles.map((vehicle) => {
+              return (
+                <Grid key={vehicle.id} item xs={12} sm={6} md={4} lg={4}>
+                  <Vehicle {...vehicle} />
+                </Grid>
+              );
+            }))}
       </Grid>
     </>
   );

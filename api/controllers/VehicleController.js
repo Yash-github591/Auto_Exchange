@@ -81,7 +81,8 @@ VehicleController.get("/myVehicles", async (req, res) => {
     const { id } = req.query;
     const vehicles = await VehicleModel.find({ owner: id })
       .populate("owner", ["username", "email"])
-      .sort({ createdAt: -1 });
+      .sort({ createdAt: -1 })
+      .limit(20);
     res.json(vehicles);
   } catch (err) {
     console.error(err);
