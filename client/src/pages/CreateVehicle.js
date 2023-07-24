@@ -48,7 +48,7 @@ function VehicleForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const formData = new FormData();
+    const formData = new FormData(); // form data is used to send files to the server along with other data in the form
     formData.set("model", model);
     formData.set("description", description);
     formData.set("price", price);

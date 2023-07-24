@@ -1,6 +1,14 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useParams, Navigate } from "react-router-dom";
-import { Box, Typography, Grid, Card, CardMedia, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  CardMedia,
+  Button,
+} from "@mui/material";
 import { FaTrashAlt, FaEdit } from "react-icons/fa";
 import { UserContext } from "../context/UserContext";
 import { formatDistanceToNow } from "date-fns";
@@ -45,7 +53,6 @@ function VehiclePage() {
         addSuffix: true,
       })
     : "";
-
   return (
     <Box sx={{ m: "2rem" }}>
       {userInfo &&
@@ -75,7 +82,7 @@ function VehiclePage() {
           </Box>
         )}
 
-      <Card sx={{ maxWidth: "100%", my: "2rem", marginBottom: "none" }}>
+      <Card sx={{ maxWidth: "100%" }}>
         <CardMedia
           component="img"
           height="100%"
@@ -83,52 +90,65 @@ function VehiclePage() {
           alt=""
         />
       </Card>
-      <Typography variant="h7" marginTop={"none"}>
-        last updated : {lastUpdated}{" "}
-      </Typography>
-      <Grid container spacing={4} sx={{ mb: "2rem" }}>
-        <Grid item xs={6}>
-          <Typography variant="h3">{vehicleData.model}</Typography>
-          <Typography variant="h5">Price: ₹{vehicleData.price}</Typography>
-          <Typography variant="body1">Age: {vehicleData.age}</Typography>
-          <Typography variant="body1">
-            Mileage: {vehicleData.mileage}
+      <Typography variant="h6">last updated : {lastUpdated} </Typography>
+      <Card sx={{ marginTop: "3%" }}>
+        <CardContent>
+          <Typography variant="h4" marginBottom={"3%"}>
+            {vehicleData.model}
           </Typography>
-          <Typography variant="body1">
-            Engine Capacity: {vehicleData.engineCapacity}
-          </Typography>
-          <Typography variant="body1">
-            Fuel Type: {vehicleData.fuelType}
-          </Typography>
-          <Typography variant="body1">
-            Location: {vehicleData.location}
-          </Typography>
-        </Grid>
-        {vehicleData.owner && (
-          <Grid item xs={6} marginTop="4%">
-            <Typography variant="h5">
-              Owner: {vehicleData.owner.username}
-            </Typography>
-            <Link
-              to={`/sendMail/${vehicleData.owner._id}`}
-              style={{ textDecoration: "none" }}
-            >
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                sx={{ mt: 2, width: "60%" }}
-              >
-                Contact Owner
-              </Button>
-            </Link>
+          <Grid container>
+            <Grid item xs={12} sm={6}>
+              <Typography variant="h6">
+                <b>Price: </b>₹{vehicleData.price}
+              </Typography>
+              <Typography variant="h6">
+                <b>Age: </b>
+                {vehicleData.age}
+              </Typography>
+              <Typography variant="h6">
+                <b>Mileage: </b>
+                {vehicleData.mileage}
+              </Typography>
+              <Typography variant="h6">
+                <b>Engine Capacity: </b>
+                {vehicleData.engineCapacity}
+              </Typography>
+              <Typography variant="h6">
+                <b>Fuel Type: </b>
+                {vehicleData.fuelType}
+              </Typography>
+              <Typography variant="h6">
+                <b>Location: </b>
+                {vehicleData.location}
+              </Typography>
+              <Typography variant="h6" whiteSpace="pre-wrap">
+                <b>Description: </b>
+                {vehicleData.description}
+              </Typography>
+            </Grid>
+            {vehicleData.owner && (
+              <Grid item xs={12} sm={6} marginTop="4%" paddingLeft="10%">
+                <Typography variant="h5">
+                  Owner: {vehicleData.owner.username}
+                </Typography>
+                <Link
+                  to={`/sendMail/${vehicleData.owner._id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    sx={{ mt: 2, width: "60%" }}
+                  >
+                    Contact Owner
+                  </Button>
+                </Link>
+              </Grid>
+            )}
           </Grid>
-        )}
-      </Grid>
-      <Typography variant="h4">Description</Typography>
-      <Typography variant="body1" whiteSpace="pre-wrap">
-        {vehicleData.description}
-      </Typography>
+        </CardContent>
+      </Card>
     </Box>
   );
 }

@@ -4,6 +4,14 @@ const fs = require("fs");
 const VehicleModel = require("../models/Vehicle");
 const jwt = require("jsonwebtoken");
 
+/*
+In Express, req.file is a property provided by the multer middleware, which is commonly used 
+for handling multipart/form-data, typically used for uploading files in web applications.
+
+When you include the multer middleware in your Express application, 
+it intercepts requests with enctype="multipart/form-data" and parses the incoming data. 
+If a file is included in the request, multer stores it in the specified destination and adds the file information to the req object.
+*/
 const uploadMiddleware = multer({ dest: "uploads/" });
 
 VehicleController.post(

@@ -7,6 +7,7 @@ import { SearchContext } from "../context/SearchContext";
 
 function IndexPage() {
   const [vehicles, setVehicles] = useState([]);
+  const [isFound, setIsFound] = useState(false);
   const { priceLow, priceHigh, location } = useContext(SearchContext);
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -18,6 +19,7 @@ function IndexPage() {
       .then((response) => {
         const vehicles = response.data;
         setVehicles(vehicles);
+        setIsFound(true);
       })
       .catch((error) => {
         console.error(error);
@@ -28,9 +30,22 @@ function IndexPage() {
     <>
       <VehicleSearchBar />
       <Grid container spacing={2} style={{ margin: "auto" }}>
-        {(vehicles.length == 0 && (
-          <CircularProgress style={{ marginTop: "10%", marginLeft: "42%" }} />
+        {(isFound === false && vehicles.length === 0 && (
+          <>
+            <p style={{ paddingLeft: "15%" }}>
+              Please wait for few seconds. The free version of the server takes
+              some time to start.
+            </p>
+            <CircularProgress style={{ marginTop: "10%", marginLeft: "42%" }} />
+          </>
         )) ||
+          (isFound === true && vehicles.length === 0 && (
+            <>
+              <h2 style={{ paddingLeft: "15%" }}>
+                No cars found for the given price and location.
+              </h2>
+            </>
+          )) ||
           (vehicles.length > 0 &&
             vehicles.map((vehicle) => {
               return (

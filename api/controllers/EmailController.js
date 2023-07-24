@@ -9,6 +9,8 @@ EmailController.post("/sendMail", (req, res) => {
 
   const companyName = "Auto Exchange";
 
+  // create reusable transporter object using the default SMTP transport and our gmail account credentials
+  // as defined in the .env file
   let config = {
     service: process.env.SERVICE,
     auth: {

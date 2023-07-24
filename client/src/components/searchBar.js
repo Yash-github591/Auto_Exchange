@@ -100,22 +100,22 @@ export default function VehicleSearchBar() {
                   </Grid>
                   <Grid item xs={5}>
                     <FormControlLabel
-                      value="Delhi"
-                      onClick={() => {
-                        setLocation("Delhi");
-                      }}
-                      control={<Radio />}
-                      label="Delhi"
-                    />
-                  </Grid>
-                  <Grid item xs={5}>
-                    <FormControlLabel
                       value="Bangalore"
                       onClick={() => {
                         setLocation("Bangalore");
                       }}
                       control={<Radio />}
                       label="Bangalore"
+                    />
+                  </Grid>
+                  <Grid item xs={5}>
+                    <FormControlLabel
+                      value="Delhi"
+                      onClick={() => {
+                        setLocation("Delhi");
+                      }}
+                      control={<Radio />}
+                      label="Delhi"
                     />
                   </Grid>
                   <Grid item xs={5}>

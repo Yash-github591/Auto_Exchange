@@ -7,7 +7,7 @@ function SendMail() {
   const [customerName, setCustomerName] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const [messageBody, setMessageBody] = useState(
-    "I am interested in your vehicle. Please contact me."
+    "I am interested in your car. Please contact me."
   );
   const { id } = useParams();
   const BASE_URL = process.env.REACT_APP_BASE_URL;
