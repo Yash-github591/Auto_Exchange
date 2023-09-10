@@ -77,10 +77,22 @@ VehicleController.get("/vehicles", async (req, res) => {
     query.location = location;
   }
 
-  const vehicles = await VehicleModel.find(query)
+  let vehicles=[];
+  if(priceHigh!=-1)
+  {
+  vehicles = await VehicleModel.find(query)
+    .populate("owner", ["username", "email"])
+    .sort({ createdAt: -1 })
+    .limit(50);
+    res.json(vehicles);
+  }
+  else
+  {
+    vehicles = await VehicleModel.find(query)
     .populate("owner", ["username", "email"])
     .sort({ createdAt: -1 });
-  res.json(vehicles);
+    res.json(vehicles);
+  }
 });
 
 VehicleController.get("/myVehicles", async (req, res) => {
