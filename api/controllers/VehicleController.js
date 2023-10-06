@@ -1,136 +1,16 @@
-const VehicleController = require("express").Router();
-const multer = require("multer");
-const fs = require("fs");
-const VehicleModel = require("../models/Vehicle");
-const jwt = require("jsonwebtoken");
+const VehicleModel = require('../models/Vehicle')
+const fs = require('fs')
 
-/*
-In Express, req.file is a property provided by the multer middleware, which is commonly used 
-for handling multipart/form-data, typically used for uploading files in web applications.
-
-When you include the multer middleware in your Express application, 
-it intercepts requests with enctype="multipart/form-data" and parses the incoming data. 
-If a file is included in the request, multer stores it in the specified destination and adds the file information to the req object.
-*/
-const uploadMiddleware = multer({ dest: "uploads/" });
-
-VehicleController.post(
-  "/addVehicle",
-  uploadMiddleware.single("coverImage"),
-  async (req, res) => {
-    try {
-      const { originalname, path } = req.file;
-      const parts = originalname.split(".");
-      const extension = parts[parts.length - 1];
-      const newPath = path + "." + extension;
-      fs.rename(path, newPath, () => {});
-
-      const { token } = req.cookies;
-      jwt.verify(token, process.env.SECRET_KEY, async (err, info) => {
-        const {
-          model,
-          price,
-          mileage,
-          age,
-          description,
-          engineCapacity,
-          fuelType,
-          location,
-        } = req.body;
-
-        if (err) throw err;
-        const vehicleDoc = await VehicleModel.create({
-          model,
-          price,
-          mileage,
-          age,
-          engineCapacity,
-          fuelType,
-          location,
-          description,
-          coverImage: newPath,
-          owner: info.id,
-        });
-        res.json(vehicleDoc);
-      });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: "Server error" });
-    }
-  }
-);
-
-VehicleController.get("/vehicles", async (req, res) => {
-  const { priceLow, priceHigh, location } = req.query;
-
-  let query = {
-    price: { $gte: priceLow },
-  };
-
-  if (priceHigh != -1) {
-    query = {
-      price: { $gte: priceLow, $lte: priceHigh },
-    };
-  }
-
-  if (location !== "") {
-    query.location = location;
-  }
-
-  let vehicles=[];
-  if(priceHigh!=-1)
-  {
-  vehicles = await VehicleModel.find(query)
-    .populate("owner", ["username", "email"])
-    .sort({ createdAt: -1 })
-    .limit(50);
-    res.json(vehicles);
-  }
-  else
-  {
-    vehicles = await VehicleModel.find(query)
-    .populate("owner", ["username", "email"])
-    .sort({ createdAt: -1 });
-    res.json(vehicles);
-  }
-});
-
-VehicleController.get("/myVehicles", async (req, res) => {
+// Add a new vehicle
+async function addVehicle(req, res) {
   try {
-    const { id } = req.query;
-    const vehicles = await VehicleModel.find({ owner: id })
-      .populate("owner", ["username", "email"])
-      .sort({ createdAt: -1 });
-    res.json(vehicles);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
-  }
-});
+    const { originalname, path } = req.file
+    const parts = originalname.split('.')
+    const extension = parts[parts.length - 1]
+    const newPath = path + '.' + extension
+    fs.rename(path, newPath, () => {})
 
-VehicleController.get("/vehicles/:id", async (req, res) => {
-  const { id } = req.params;
-  const vehicleDoc = await VehicleModel.findById(id).populate("owner", [
-    "username",
-    "email",
-  ]);
-  res.json(vehicleDoc);
-});
-
-VehicleController.put(
-  "/vehicles",
-  uploadMiddleware.single("coverImage"),
-  async (req, res) => {
-    let newPath = null;
-    if (req.file) {
-      const { originalname, path } = req.file;
-      const parts = originalname.split(".");
-      const extension = parts[parts.length - 1];
-      newPath = path + "." + extension;
-      fs.rename(path, newPath, () => {});
-    }
     const {
-      id,
       model,
       price,
       mileage,
@@ -139,60 +19,147 @@ VehicleController.put(
       engineCapacity,
       fuelType,
       location,
-    } = req.body;
-    const { token } = req.cookies;
-    jwt.verify(token, process.env.SECRET_KEY, async (err, info) => {
-      if (err) throw err;
-      const vehicleDoc = await VehicleModel.findById(id);
-      const isOwner =
-        JSON.stringify(vehicleDoc.owner) === JSON.stringify(info.id);
-      if (!isOwner) {
-        return res
-          .status(400)
-          .json({ error: "You are not the owner of this vehicle" });
-      }
-      await vehicleDoc.updateOne({
-        model,
-        price,
-        mileage,
-        age,
-        engineCapacity,
-        description,
-        fuelType,
-        location,
-        coverImage: newPath || vehicleDoc.coverImage,
-        owner: info.id,
-      });
-      res.json(vehicleDoc);
-    });
+    } = req.body
+
+    const vehicleDoc = await VehicleModel.create({
+      model,
+      price,
+      mileage,
+      age,
+      engineCapacity,
+      fuelType,
+      location,
+      description,
+      coverImage: newPath,
+      owner: req.user.id,
+    })
+
+    res.json(vehicleDoc)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Server error' })
   }
-);
+}
 
-VehicleController.delete("/deleteVehicle/:id", async (req, res) => {
-  const { id } = req.params;
-  const { token } = req.cookies;
+// Get all vehicles
+async function getAllVehicles(req, res) {
+  const { priceLow, priceHigh, location } = req.query
 
-  jwt.verify(token, process.env.SECRET_KEY, async (err, info) => {
-    if (err) throw err;
-    const vehicleDoc = await VehicleModel.findById(id);
-    const isOwner =
-      JSON.stringify(vehicleDoc.owner) === JSON.stringify(info.id);
-    if (!isOwner) {
-      return res
-        .status(400)
-        .json({ error: "You are not the owner of this vehicle" });
+  let query = {
+    price: { $gte: priceLow, $lte: priceHigh },
+  }
+
+  if (location !== '') {
+    query.location = location
+  }
+
+  const vehicles = await VehicleModel.find(query)
+    .populate('owner', ['username', 'email'])
+    .sort({ createdAt: -1 })
+    .limit(20)
+
+  res.json(vehicles)
+}
+
+// Get all vehicles of a user
+async function getMyVehicles(req, res) {
+  try {
+    const { id } = req.query
+
+    const vehicles = await VehicleModel.find({ owner: id })
+      .populate('owner', ['username', 'email'])
+      .sort({ createdAt: -1 })
+      .limit(20)
+
+    res.json(vehicles)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Server error' })
+  }
+}
+
+// Get a single vehicle by ID
+async function getVehicleById(req, res) {
+  const { id } = req.params
+  const vehicleDoc = await VehicleModel.findById(id).populate('owner', [
+    'username',
+    'email',
+  ])
+  res.json(vehicleDoc)
+}
+
+// Update a vehicle
+async function updateVehicle(req, res) {
+  try {
+    let newPath = null
+
+    if (req.file) {
+      const { originalname, path } = req.file
+      const parts = originalname.split('.')
+      const extension = parts[parts.length - 1]
+      newPath = path + '.' + extension
+      fs.rename(path, newPath, () => {})
     }
-    const coverImagePath = vehicleDoc.coverImage;
-    await vehicleDoc.deleteOne();
+
+    const {
+      id, // Access the ID from req.params
+      model,
+      price,
+      mileage,
+      age,
+      description,
+      engineCapacity,
+      fuelType,
+      location,
+    } = req.body
+
+    const vehicleDoc = await VehicleModel.findById(id)
+
+    await vehicleDoc.updateOne({
+      model,
+      price,
+      mileage,
+      age,
+      engineCapacity,
+      description,
+      fuelType,
+      location,
+      coverImage: newPath || vehicleDoc.coverImage,
+    })
+
+    res.json(vehicleDoc)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ message: 'Server error' })
+  }
+}
+
+// Delete a vehicle
+async function deleteVehicle(req, res) {
+  try {
+    const { id } = req.params
+    const vehicleDoc = await VehicleModel.findById(id)
+    const coverImagePath = vehicleDoc.coverImage
+    await vehicleDoc.deleteOne()
 
     if (coverImagePath) {
       fs.unlink(coverImagePath, (err) => {
-        if (err) throw err;
-      });
+        if (err) throw err
+      })
     }
 
-    res.json(vehicleDoc);
-  });
-});
+    res.json(vehicleDoc)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Server error' })
+  }
+}
 
-exports.default = VehicleController;
+module.exports = {
+  addVehicle,
+  getAllVehicles,
+  getMyVehicles,
+  getVehicleById,
+  updateVehicle,
+  deleteVehicle,
+}

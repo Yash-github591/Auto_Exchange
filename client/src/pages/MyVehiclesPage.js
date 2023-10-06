@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from "react";
-import Vehicle from "../components/vehicle";
-import { Grid } from "@mui/material";
-import { UserContext } from "../context/UserContext";
-import axios from "axios";
+import { useContext, useEffect, useState } from 'react'
+import Vehicle from '../components/vehicle'
+import { Grid } from '@mui/material'
+import { UserContext } from '../context/UserContext'
+import axios from 'axios'
 
 function MyVehiclesPage() {
-  const { userInfo } = useContext(UserContext);
-  const [vehicles, setVehicles] = useState([]);
-  const BASE_URL = process.env.REACT_APP_BASE_URL;
+  const { userInfo } = useContext(UserContext)
+  const [vehicles, setVehicles] = useState([])
+  const BASE_URL = process.env.REACT_APP_BASE_URL
 
   useEffect(() => {
     if (userInfo && userInfo.id) {
@@ -16,14 +16,14 @@ function MyVehiclesPage() {
           params: { id: userInfo.id },
         })
         .then((response) => {
-          const vehicles = response.data;
-          setVehicles(vehicles);
+          const vehicles = response.data
+          setVehicles(vehicles)
         })
         .catch((error) => {
-          console.error(error);
-        });
+          console.error(error)
+        })
     }
-  }, [userInfo]);
+  }, [userInfo])
 
   return (
     <Grid container spacing={2}>
@@ -33,10 +33,10 @@ function MyVehiclesPage() {
             <Grid key={vehicle.id} item xs={12} sm={6} md={4} lg={4}>
               <Vehicle {...vehicle} />
             </Grid>
-          );
+          )
         })}
     </Grid>
-  );
+  )
 }
 
-export default MyVehiclesPage;
+export default MyVehiclesPage

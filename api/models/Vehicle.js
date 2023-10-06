@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+const mongoose = require('mongoose')
+const { Schema, model } = mongoose
 
 const VehicleSchema = new Schema(
   {
-    owner: { type: Schema.Types.ObjectId, ref: "User" },
+    owner: { type: Schema.Types.ObjectId, ref: 'User' },
     model: { type: String, required: true },
     description: { type: String, required: false },
     price: { type: Number, required: true },
@@ -12,19 +12,19 @@ const VehicleSchema = new Schema(
     engineCapacity: { type: Number, required: true },
     fuelType: {
       type: String,
-      enum: ["petrol", "diesel", "electric"],
+      enum: ['petrol', 'diesel', 'electric'],
       required: true,
     },
     location: {
       type: String,
-      enum: ["Bangalore", "Hyderabad", "Delhi"],
+      enum: ['Bangalore', 'Hyderabad', 'Delhi'],
     },
     coverImage: String,
   },
   {
     timestamps: true,
   }
-);
+)
 
-const VehicleModel = model("Vehicle", VehicleSchema);
-module.exports = VehicleModel;
+const VehicleModel = model('Vehicle', VehicleSchema)
+module.exports = VehicleModel

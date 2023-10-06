@@ -1,16 +1,16 @@
-import "./App.css";
-import { Route, Routes } from "react-router-dom";
-import Layout from "./components/layout";
-import IndexPage from "./pages/IndexPage";
-import MyVehiclesPage from "./pages/MyVehiclesPage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import { UserContextProvider } from "./context/UserContext";
-import CreateVehicle from "./pages/CreateVehicle";
-import EditVehicle from "./pages/EditVehicle";
-import VehiclePage from "./pages/VehiclePage";
-import SendMail from "./pages/SendMail";
-import { SearchContextProvider } from "./context/SearchContext";
+import './App.css'
+import { Route, Routes } from 'react-router-dom'
+import Layout from './components/layout'
+import IndexPage from './pages/IndexPage'
+import MyVehiclesPage from './pages/MyVehiclesPage'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
+import { UserContextProvider } from './context/UserContext'
+import CreateVehicle from './pages/CreateVehicle'
+import EditVehicle from './pages/EditVehicle'
+import VehiclePage from './pages/VehiclePage'
+import SendMail from './pages/SendMail'
+import { SearchContextProvider } from './context/SearchContext'
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
         </Routes>
       </SearchContextProvider>
     </UserContextProvider>
-  );
+  )
 }
 
-export default App;
+export default App
