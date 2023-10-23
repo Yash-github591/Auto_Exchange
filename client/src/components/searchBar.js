@@ -6,9 +6,9 @@ import {
   FormControlLabel,
   Radio,
   Grid,
-} from '@mui/material'
-import { SearchContext } from '../context/SearchContext'
-import { useContext } from 'react'
+} from "@mui/material";
+import { SearchContext } from "../context/SearchContext";
+import { useContext } from "react";
 
 export default function VehicleSearchBar() {
   const {
@@ -19,17 +19,17 @@ export default function VehicleSearchBar() {
     setPriceLow,
     setPriceHigh,
     setLocation,
-  } = useContext(SearchContext)
+  } = useContext(SearchContext);
 
   return (
-    <Grid container style={{ padding: '1rem' }}>
+    <Grid container style={{ padding: "1rem" }}>
       <Grid item xs={6}>
         <Box>
-          <FormControl style={{ display: 'flex' }}>
+          <FormControl style={{ display: "flex" }}>
             <FormLabel id="demo-radio-label">Filter by Price ranges</FormLabel>
             <RadioGroup
               onChange={(e) => {
-                setPriceValue(e.target.value)
+                setPriceValue(e.target.value);
               }}
               aria-labelledby="demo-radio-label"
               name="radio-group"
@@ -40,8 +40,8 @@ export default function VehicleSearchBar() {
                   <FormControlLabel
                     value="allPrices"
                     onClick={() => {
-                      setPriceHigh(10000000)
-                      setPriceLow(0)
+                      setPriceHigh(-1);
+                      setPriceLow(0);
                     }}
                     control={<Radio />}
                     label="All Prices"
@@ -51,8 +51,8 @@ export default function VehicleSearchBar() {
                   <FormControlLabel
                     value="upto 2 lakhs"
                     onClick={() => {
-                      setPriceHigh(200000)
-                      setPriceLow(0)
+                      setPriceHigh(200000);
+                      setPriceLow(0);
                     }}
                     control={<Radio />}
                     label="Upto 2 lakhs"
@@ -62,8 +62,8 @@ export default function VehicleSearchBar() {
                   <FormControlLabel
                     value="2 - 5 lakhs"
                     onClick={() => {
-                      setPriceHigh(500000)
-                      setPriceLow(200000)
+                      setPriceHigh(500000);
+                      setPriceLow(200000);
                     }}
                     control={<Radio />}
                     label="2 - 5 lakhs"
@@ -73,8 +73,8 @@ export default function VehicleSearchBar() {
                   <FormControlLabel
                     value="Above 5 lakhs"
                     onClick={() => {
-                      setPriceHigh(10000000)
-                      setPriceLow(500000)
+                      setPriceHigh(-1);
+                      setPriceLow(500000);
                     }}
                     control={<Radio />}
                     label="Above 5 lakhs"
@@ -88,14 +88,14 @@ export default function VehicleSearchBar() {
       <Grid item xs={6}>
         <FormControl>
           <Box>
-            <FormControl style={{ display: 'flex' }}>
+            <FormControl style={{ display: "flex" }}>
               <FormLabel id="demo-radio-label">Filter by locations</FormLabel>
               <RadioGroup
                 value={locationValue}
                 aria-labelledby="demo-radio-label"
                 name="radio-group"
                 onChange={(e) => {
-                  setLocationValue(e.target.value)
+                  setLocationValue(e.target.value);
                 }}
               >
                 <Grid container>
@@ -103,7 +103,7 @@ export default function VehicleSearchBar() {
                     <FormControlLabel
                       value="allPlaces"
                       onClick={() => {
-                        setLocation('')
+                        setLocation("");
                       }}
                       control={<Radio />}
                       label="All Places"
@@ -113,7 +113,7 @@ export default function VehicleSearchBar() {
                     <FormControlLabel
                       value="Delhi"
                       onClick={() => {
-                        setLocation('Delhi')
+                        setLocation("Delhi");
                       }}
                       control={<Radio />}
                       label="Delhi"
@@ -123,7 +123,7 @@ export default function VehicleSearchBar() {
                     <FormControlLabel
                       value="Bangalore"
                       onClick={() => {
-                        setLocation('Bangalore')
+                        setLocation("Bangalore");
                       }}
                       control={<Radio />}
                       label="Bangalore"
@@ -133,7 +133,7 @@ export default function VehicleSearchBar() {
                     <FormControlLabel
                       value="Hyderabad"
                       onClick={() => {
-                        setLocation('Hyderabad')
+                        setLocation("Hyderabad");
                       }}
                       control={<Radio />}
                       label="Hyderabad"
@@ -146,5 +146,5 @@ export default function VehicleSearchBar() {
         </FormControl>
       </Grid>
     </Grid>
-  )
+  );
 }

@@ -74,7 +74,7 @@ function Navbar() {
 
   const resetSearch = () => {
     setPriceLow(0);
-    setPriceHigh(200000000);
+    setPriceHigh(-1);
     setLocation("");
     setPriceValue("allPrices");
     setLocationValue("allPlaces");

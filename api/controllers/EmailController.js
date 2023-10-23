@@ -31,7 +31,7 @@ const sendMail = (req, res) => {
   let response = {
     body: {
       name: ownerName,
-      intro: `${customerName} is interested in your bike, please contact him/her. Here's a message from him/her:- <br /><br /> ${customerName}: ${messageBody}`,
+      intro: `${customerName} is interested in your car, please contact him/her. Here's a message from him/her:- <br /><br /> ${customerName}: ${messageBody}`,
       action: {
         button: {
           color: "#22BC66", // Optional action button color
